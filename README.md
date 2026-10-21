@@ -70,6 +70,38 @@ python3 airbatt.py --macos --json
 
 Keep the AirPods nearby. Open the case or wear them so they stay connected or advertise. For BLE, grant **Bluetooth** to Terminal (or iTerm) in System Settings.
 
+---
+
+## minibatt.py (Bluetooth Peripherals Battery)
+
+One-shot CLI to query the battery percentage of connected standard Bluetooth LE peripherals (keyboards, mice, gamepads, etc.) via CoreBluetooth's standard Battery Service (`0x180F`).
+
+### Requirements
+
+```bash
+pip install -r requirements.txt
+```
+*(Requires `pyobjc-framework-CoreBluetooth`)*
+
+### Usage
+
+```bash
+# Default (queries "MX Keys Mini"):
+python3 minibatt.py
+
+# Query any connected Bluetooth device by name:
+python3 minibatt.py "MX Master 3S"
+python3 minibatt.py "Magic Keyboard"
+```
+
+Output:
+```
+Connected peripherals seen: ['MX Keys Mini']
+MX Keys Mini: 50%
+```
+
+If the device is not connected or doesn't expose standard Battery Service, it prints an informative error and exits with code `1`.
+
 ## How it works
 
 1. **macOS** — parse `system_profiler SPBluetoothDataType -xml` for `device_batteryLevelLeft` / `Right` / `Case`.
